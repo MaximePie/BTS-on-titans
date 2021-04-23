@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4b8af0ee-a96b-4369-bfc2-1d16a74ee395" name="Default Changelist" comment="" />
+    <list default="true" id="4b8af0ee-a96b-4369-bfc2-1d16a74ee395" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Battle.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Test.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/old/Ennemy.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/old/Player.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Battlefield.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/old/Battlefield.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Ennemy.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/Ennemy.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Player.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/damageCalculator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/damageCalculator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,7 +25,11 @@
       <executable />
     </execution>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1rReh9XfMOD1hC5oN4tdGmftX63" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -20,12 +37,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../aimtrainer" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Programmation\first-svelte-app\src\old" />
       <recent name="D:\Programmation\first-svelte-app\src" />
       <recent name="D:\Programmation\first-svelte-app\public" />
     </key>
@@ -53,7 +72,7 @@
       <workItem from="1618989732977" duration="550000" />
       <workItem from="1618990347386" duration="13875000" />
       <workItem from="1619096640427" duration="13389000" />
-      <workItem from="1619160337482" duration="500000" />
+      <workItem from="1619160337482" duration="8990000" />
     </task>
     <servers />
   </component>
@@ -89,10 +108,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="443" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1618992612694" />
-    <state width="746" height="596" key="SwitcherDM" timestamp="1619110866616">
+    <state width="746" height="596" key="SwitcherDM" timestamp="1619168970460">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="746" height="596" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1619110866616" />
+    <state width="746" height="596" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1619168970460" />
+    <state x="808" y="25" width="1093" height="996" key="find.popup" timestamp="1619171205285">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="808" y="25" width="1093" height="996" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1619171205285" />
+    <state x="842" y="236" width="1009" height="1469" key="run.anything.popup" timestamp="1619164280405">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="842" y="236" width="1009" height="1469" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1619164280405" />
     <state x="880" y="0" width="1009" height="1036" key="search.everywhere.popup" timestamp="1619107695212">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

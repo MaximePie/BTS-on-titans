@@ -1,20 +1,20 @@
 <script>
-  import {calculateFinalHp} from "./damageCalculator";
-  import {attacks, skills} from "./cards";
-  import {tick} from "svelte";
-
+  import {calculateFinalHp,} from "../damageCalculator.js";
+  import {attacks, skills} from "../cards";
   const {BASIC_ATTACK} = attacks;
   const {BASIC_DEFENSE} = skills;
 
-  export let shouldPlay = false;
+  export let ennemy;
   export let index;
-  export let enemy;
   export let player;
-  export let selectedTarget = undefined;
-  export let next = () => null;
+  export let shouldPlay;
+  export let endTurn;
+  export let selectedEnemyIndex;
+
+  const PLAYER = 0;
+  const ENNEMY = 1;
 
   $: if (shouldPlay) attack();
-
 
   /**
    * The ennemy attacks the player
@@ -22,36 +22,32 @@
    */
   function attack(action = BASIC_ATTACK) {
     if (player.hp > 0) {
-      const hp = calculateFinalHp(action, enemy, player);
+      const hp = calculateFinalHp(action, ennemy, player);
       player = {...player, hp};
+      endTurn(player);
     }
-    tick().then(next);
   }
 
-  /**
-   * Selects the current enemy
-   */
-  function selectEnemy() {
-    selectedTarget = index;
+  function onSelect() {
+    selectedEnemyIndex = index;
   }
+
 </script>
 
 <div
   class="Ennemy"
-  class:Ennemy--dead={enemy.hp < 10}
-  on:click={selectEnemy}
+  class:Ennemy--dead={ennemy.hp < 10}
+  on:click={onSelect}
 >
-<!--  on:click={onSelect}-->
   <div>
-    <h4>{enemy.name}</h4>
-    <img class="Ennemy__image" src={enemy.image} alt="Titan"/>
+    <h4>{ennemy.name}</h4>
+    <img class="Ennemy__image" src={ennemy.image} alt="Titan"/>
   </div>
-  <p>PV : {enemy.hp}</p>
-  {#if enemy.hp === 0}
+  <p>PV : {ennemy.hp}</p>
+  {#if ennemy.hp === 0}
     <p class="Ennemy__death-text">L'ennemi a été vaincu !</p>
   {/if}
 </div>
-
 
 <style>
 

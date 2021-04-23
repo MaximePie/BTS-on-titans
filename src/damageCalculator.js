@@ -3,7 +3,7 @@ import {attacks, skills} from "./cards";
 /**
  * Calculates the damage output based on entities and actions
  */
-export function calculate(action, attacker, target) {
+export function calculateFinalHp(action, attacker, target) {
   const {hp} = target;
   let damage = action === attacks.BASIC_ATTACK ? attacker.attack : 0;
   damage -= target.defense || 0;

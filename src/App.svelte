@@ -1,9 +1,15 @@
 <script>
-  import Battlefield from "./Battlefield.svelte"
+  import Battlefield from "./old/Battlefield.svelte"
   import Map from "./Map.svelte"
-  import {player as initialPlayer} from "./entities";
+  import Test from "./Test.svelte"
+  import Battle from "./Battle.svelte"
+  import {
+    player as initialPlayer,
+    ennemies as initialEnnemies
+  } from "./entities.js";
 
   let player = initialPlayer;
+  let enemies = initialEnnemies;
   let currentBattle = undefined;
   let currentStep = 1;
 
@@ -23,18 +29,19 @@
    */
   function onBattlePick(battle) {
     currentBattle = battle;
-    console.log(battle);
   }
 
 </script>
 
 <div>
   <h2>Ready to fight ? Fight !</h2>
-  {#if !currentBattle}
-    <Map {currentStep} {onBattlePick}/>
-  {:else}
-    <Battlefield {onBattleEnd}/>
-  {/if}
+  <!--  {#if !currentBattle}
+      <Map {currentStep} {onBattlePick}/>
+    {:else}-->
+<!--  <Battlefield bind:player={player} {onBattleEnd}/>-->
+  <Battle bind:player={player} {onBattleEnd} enemies={enemies}/>
+  <!--  {/if}-->
+
 </div>
 
 <style>

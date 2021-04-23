@@ -2,12 +2,11 @@
   import {
   player as initialPlayer,
   ennemies as initialEnnemies
-  } from "./entities.js";
+  } from "../entities.js";
   import Player from "./Player.svelte"
   import Ennemy from "./Ennemy.svelte"
 
-
-  let player = {
+  export let player = {
     ...initialPlayer,
     isSelecting: false,
   };
@@ -17,35 +16,36 @@
   let currentTurn = player;
   let selectedEnnemyIndex = undefined;
 
-  function onSelectAction() {
+/*  function onSelectAction() {
     player = {...player, isSelecting: true};
-  }
+  }*/
 
   /**
    * Is called by the Player file when the player does something
    */
   function updateField(updatedPlayer = player, updatedEnnemies = ennemies) {
-    player = {...updatedPlayer, isSelecting: false};
+/*    player = {...updatedPlayer, isSelecting: false};
     ennemies = [...updatedEnnemies];
     selectedEnnemyIndex = undefined;
     if (!ennemies.length) {
       endBattle();
-    }
+    }*/
   }
 
-  /**
+/*
+  /!**
    * Triggered when the user is Selecting and has clicked on
    * an ennemy target
    * @index The index of the ennemy target
-   */
+   *!/
   function onSelectTarget(index) {
     if (player.isSelecting) {
       selectedEnnemyIndex = index;
     }
-  }
+  }*/
 
   function endTurn(updatedPlayer = player, updatedEnnemies = ennemies) {
-    updateField(updatedPlayer, updatedEnnemies);
+    // updateField(updatedPlayer, updatedEnnemies);
     if (ennemies.length) {
       next();
     }
@@ -82,7 +82,7 @@
     else if (currentTurn.name === player.name) {
       currentTurn = ennemies[0];
     }
-      // Either it's ennemy X's turn
+    // Either it's ennemy X's turn
     // If the current turn is not equal to the last ennemy in the array
     else if (currentTurn.name !== ennemies[ennemies.length - 1].name) {
       // Trouver l'index du currentTurn
@@ -100,12 +100,13 @@
 </script>
 
 <div class="Battlefield">
+  <h3>Selected enemy index : {selectedEnnemyIndex}</h3>
+  <h3>L'utilisateur attaque : {player.isSelecting ? "Oui" : "non"}</h3>
   <Player
-    {onSelectAction}
-    {ennemies}
-    {player}
+    bind:ennemies={ennemies}
+    bind:player={player}
+    bind:selectedEnemyIndex={selectedEnnemyIndex}
     {endTurn}
-    {selectedEnnemyIndex}
     {updateField}
     shouldPlay={currentTurn?.name === player.name}
   />
@@ -113,10 +114,10 @@
     <Ennemy
       {index}
       shouldPlay={currentTurn.name === ennemy.name}
-      {ennemy}
-      {player}
+      bind:ennemy={ennemy}
+      bind:player={player}
+      bind:selectedEnemyIndex={selectedEnnemyIndex}
       {endTurn}
-      {onSelectTarget}
     />
   {/each}
 </div>

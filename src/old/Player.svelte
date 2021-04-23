@@ -1,32 +1,49 @@
 <script>
-  import {attacks, skills} from "./cards.js";
-  import {calculateFinalHp} from "./damageCalculator";
-
+  import {calculateFinalHp} from "../damageCalculator.js";
+  import {basicDeck, attacks, skills} from "../cards.js";
   const {BASIC_ATTACK} = attacks;
   const {BASIC_DEFENSE} = skills;
 
-  export let player = {};
-  export let enemies = {};
-  export let shouldPlay = false;
-  export let next;
-  export let selectedTarget = undefined;
+  const PLAYER = 0;
+  const ENNEMY = 1;
 
-  let selectedAction = undefined;
+  export let selectedEnnemyIndex = undefined;
+  export let shouldPlay;
+  export let onSelectAction;
+  export let endTurn;
+  export let updateField;
+  export let player = {
+    hp: 0,
+    image: "",
+  };
+  export let ennemies = [];
 
-  let deck = [...player.deck.sort(() => Math.random() - 0.5)];
   let cardsList = [];
   let graveyard = [];
+  let deck = basicDeck.sort(() => Math.random() - 0.5);
+  let selectedAction = undefined;
 
-  $: if (selectedTarget !== undefined && selectedAction !== undefined) attack();
-  $: if (player.mana === 0) finishTurn();
-  $: if (shouldPlay) initializeTurn();
+  /**
+   * Si c'est au tour de l'utilisateur, on pioche des cartes.
+   */
+  $: if (shouldPlay) {
+    initializeTurn();
+  }
 
+
+  $: if (selectedEnnemyIndex !== undefined) {
+    alert("Selected");
+    attack()
+  }
+  $: if (player.mana === 0) {
+    finishTurn()
+  }
+
+  /**
+   * Sets the mana to default value
+   * Picks the cards
+   */
   function initializeTurn() {
-    player = {
-      ...player,
-      mana: 3,
-      defense: 0,
-    }
 
     // On prend le deck
     // On retire les 5 dernières cartes du paquet
@@ -34,7 +51,7 @@
     const updatedCardsList = [];
     let updatedDeck = [...deck];
 
-    const limit = updatedDeck.length > 5 ? 5 : updatedDeck.length;
+    const limit = deck.length > 5 ? 5 : deck.length;
     for (let currentCard = 0; currentCard < limit; currentCard++) {
       const newCard = updatedDeck.pop();
       updatedCardsList.push(newCard);
@@ -45,7 +62,6 @@
      * we shuffle the graveyard and put the cards in the
      * deck
      */
-
     if (updatedCardsList.length < 5) {
       restoreDeck();
       updatedDeck = [...deck];
@@ -73,30 +89,16 @@
    * @cardIndex represents the index of the selected card in the Cards List
    */
   function selectAction(cardIndex) {
+    const selectedCard = cardsList[cardIndex];
     selectedAction = cardIndex;
-    selectedTarget = undefined;
-    player = {
-      ...player,
-      isSelecting: true,
-    }
-  }
-
-  function finishTurn() {
-    graveyard = [...graveyard, ...cardsList];
-    cardsList = [];
-    next();
-  }
-
-  /**
-   * If the player is selecting,
-   * applies the effect of the selected card to the player.
-   */
-  function selectPlayer() {
-    if (selectedAction) {
-      const {action} = cardsList[selectedAction];
-      if (action === BASIC_DEFENSE) {
-        defend();
+    if (selectedCard.action === BASIC_ATTACK) {
+      player = {
+        ...player,
+        isSelecting: true,
       }
+    }
+    else if (selectedCard.action === BASIC_DEFENSE) {
+      defend();
     }
   }
 
@@ -106,7 +108,7 @@
   function defend() {
     const defense = cardsList[selectedAction].action === BASIC_DEFENSE ? 6 : 0;
     player = {...player, defense: player.defense + defense}
-    finishAction();
+    onActionFinished();
   }
 
 
@@ -116,72 +118,78 @@
    * @param action The action linked to the attack
    */
   function attack(action = BASIC_ATTACK) {
-    const enemy = enemies[selectedTarget];
-    const {hp} = enemy;
+    const ennemy = ennemies[selectedEnnemyIndex];
+    const {hp} = ennemy;
 
     if (hp > 0) {
-      const hp = calculateFinalHp(action, player, enemy);
-      let updatedEnemies = [...enemies];
+      const hp = calculateFinalHp(action, player, ennemy);
+      let updatedEnnemies = [...ennemies];
       if (hp !== 0) {
-        updatedEnemies[selectedTarget] = {...enemy, hp};
+        const updatedEnnemy = {...ennemy, hp};
+        updatedEnnemies[selectedEnnemyIndex] = updatedEnnemy;
       } else {
-        updatedEnemies = updatedEnemies.filter(currentEnemy => currentEnemy.name !== enemy.name)
+        updatedEnnemies = updatedEnnemies.filter(currentEnnemy => currentEnnemy.name !== ennemy.name)
       }
-      enemies = [...updatedEnemies];
-
-      finishAction();
+      ennemies = [...updatedEnnemies];
+      onActionFinished();
     }
   }
 
   /**
    * This method is triggered when the users has played something
    */
-  function finishAction() {
+  function onActionFinished() {
     player = {...player, mana: player.mana - 1};
-
+    updateField(player, ennemies);
     // Remove last card played from hand and put it in graveyard
     graveyard = [...graveyard, cardsList[selectedAction]];
     cardsList = [...cardsList.filter((card, index) => selectedAction !== index)]
     selectedAction = undefined;
   }
+
+  function finishTurn() {
+    graveyard = [...graveyard, ...cardsList];
+    cardsList = [];
+    endTurn({...player, isSelecting: false}, ennemies);
+  }
+
 </script>
 
-
-<div class="Player" on:click={selectPlayer}>
-  <h4>{player.name}</h4>
-  <img src={player.image} alt="Jhope"/>
-  <p>
+<div>
+  <div class="Player">
+    <h4>{player.name}</h4>
+    <img src={player.image} alt="Jhope"/>
+    <p>
       <span>
         ❤ {player.hp}
       </span>
-    <span>
+      <span>
         🛡️ {player.defense}
       </span>
-    <span>
+      <span>
         💧 {player.mana}
       </span>
-    <span>
+      <span>
         🗃️
-      {deck.length}
+        {deck.length}
       </span>
-    <span>
+      <span>
         ☠️
-      {graveyard.length}
+        {graveyard.length}
       </span>
-  </p>
-  <div class="Player__actions">
-    {#each cardsList as card, index}
-      <button
-        class="Player__action"
-        on:click={() => selectAction(index)}
-      >
-        {card.name}
-      </button>
-    {/each}
+    </p>
+    <div class="Player__actions">
+      {#each cardsList as card, index}
+        <button
+          class="Player__action"
+          on:click={() => selectAction(index)}
+        >
+          {card.name}
+        </button>
+      {/each}
+    </div>
   </div>
-  <button on:click={finishTurn}>Fin du tour</button>
 </div>
-
 
 <style>
   h4 {
