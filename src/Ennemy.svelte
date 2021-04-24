@@ -1,5 +1,5 @@
 <script>
-  import {calculateFinalHp} from "./damageCalculator";
+  import {applyDamages} from "./damageCalculator";
   import {attacks, skills} from "./cards";
   import {tick} from "svelte";
 
@@ -21,10 +21,8 @@
    * @param action The action linked to the attack
    */
   function attack(action = BASIC_ATTACK) {
-    if (player.hp > 0) {
-      const hp = calculateFinalHp(action, enemy, player);
-      player = {...player, hp};
-    }
+    const updatedPlayer = applyDamages(action, enemy, player);
+    player = {...updatedPlayer};
     tick().then(next);
   }
 
@@ -41,7 +39,7 @@
   class:Ennemy--dead={enemy.hp < 10}
   on:click={selectEnemy}
 >
-<!--  on:click={onSelect}-->
+  <!--  on:click={onSelect}-->
   <div>
     <h4>{enemy.name}</h4>
     <img class="Ennemy__image" src={enemy.image} alt="Titan"/>

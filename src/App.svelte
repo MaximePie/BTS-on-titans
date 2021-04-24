@@ -1,25 +1,32 @@
 <script>
-  import Battlefield from "./old/Battlefield.svelte"
   import Map from "./Map.svelte"
-  import Test from "./Test.svelte"
   import Battle from "./Battle.svelte"
+  import Rewards from "./Rewards.svelte"
   import {
     player as initialPlayer,
-    ennemies as initialEnnemies
   } from "./entities.js";
 
   let player = initialPlayer;
-  let enemies = initialEnnemies;
+  let enemies = [];
   let currentBattle = undefined;
-  let currentStep = 1;
+  let currentStep = 2;
+  let isRewardsScreenDisplayed = false;
 
 
   /**
-   * This method updates the player once the battle is over
+   * Triggered when the battle is over
    */
-  function onBattleEnd(updatedPlayer) {
-    player = {...updatedPlayer};
+  function onBattleEnd() {
     currentBattle = undefined;
+    isRewardsScreenDisplayed = true;
+  }
+
+  /**
+   * Triggered when the user picks a rewards after a battle
+   */
+  function onRewardChoosen() {
+    currentStep++;
+    isRewardsScreenDisplayed = false;
   }
 
   /**
@@ -29,18 +36,20 @@
    */
   function onBattlePick(battle) {
     currentBattle = battle;
+    enemies = battle.enemies;
   }
 
 </script>
 
 <div>
   <h2>Ready to fight ? Fight !</h2>
-  <!--  {#if !currentBattle}
-      <Map {currentStep} {onBattlePick}/>
-    {:else}-->
-<!--  <Battlefield bind:player={player} {onBattleEnd}/>-->
-  <Battle bind:player={player} {onBattleEnd} enemies={enemies}/>
-  <!--  {/if}-->
+  {#if isRewardsScreenDisplayed}
+    <Rewards {currentStep} {onRewardChoosen}/>
+  {:else if !currentBattle }
+    <Map {currentStep} {onBattlePick}/>
+  {:else}
+    <Battle bind:player={player} {onBattleEnd} enemies={enemies}/>
+  {/if}
 
 </div>
 

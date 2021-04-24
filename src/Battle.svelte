@@ -1,6 +1,7 @@
 <script>
   import Player from "./Player.svelte";
   import Ennemy from "./Ennemy.svelte";
+  import {onMount} from "svelte";
 
   export let onBattleEnd;
   export let player = {};
@@ -9,19 +10,13 @@
   let currentTurn = player;
   let selectedTarget = undefined;
 
-  $: if (!enemies.length) onBattleEnd();
+  onMount(() => {
+    enemies = enemies.map((enemy, index) => {
+      return {...enemy, name: enemy.name + " " + (index + 1)};
+    })
+  });
 
-  /**
-   * Resets the player's state before beginning the next turn
-   */
-  function resetPlayer() {
-    player = {
-      ...player,
-      hp: 50,
-      mana: 3,
-      defense: 0,
-    }
-  }
+  $: if (!enemies.length) onBattleEnd();
 
   /**
    * Goes to the next entity
@@ -29,12 +24,10 @@
   function next() {
     const {name: currentName} = currentTurn;
     const {name: playerName} = player;
-    const {name: lastEnnemyName} = enemies[enemies.length - 1];
-
+    const {name: lastEnnemyName} = enemies[enemies.length - 1] || null;
     // Either it's the player's turn
     // If every ennemies have played
     if (currentName === lastEnnemyName) {
-      // resetPlayer();
       currentTurn = player;
     } else if (currentName === playerName) {
       currentTurn = enemies[0];
@@ -64,25 +57,24 @@
   }
 </style>
 
-
-<div class="Battlefield">
-  <Player
-    shouldPlay={currentTurn.name === player.name}
-    bind:player={player}
-    bind:enemies={enemies}
-    bind:selectedTarget={selectedTarget}
-    {next}
-  />
-  {#each enemies as enemy, index}
-    <Ennemy
-      {index}
-      shouldPlay={currentTurn.name === enemy.name}
-      bind:enemy={enemy}
+<div>
+  <div class="Battlefield">
+    <Player
+      shouldPlay={currentTurn.name === player.name}
       bind:player={player}
+      bind:enemies={enemies}
       bind:selectedTarget={selectedTarget}
       {next}
     />
-<!--      bind:selectedEnemyIndex={selectedEnnemyIndex}-->
-<!--      {endTurn}-->
-  {/each}
+    {#each enemies as enemy, index}
+      <Ennemy
+        {index}
+        shouldPlay={currentTurn.name === enemy.name}
+        bind:enemy={enemy}
+        bind:player={player}
+        bind:selectedTarget={selectedTarget}
+        {next}
+      />
+    {/each}
+  </div>
 </div>

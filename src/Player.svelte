@@ -1,6 +1,7 @@
 <script>
   import {attacks, skills} from "./cards.js";
-  import {calculateFinalHp} from "./damageCalculator";
+  import {applyDamages} from "./damageCalculator";
+  import {tick} from "svelte";
 
   const {BASIC_ATTACK} = attacks;
   const {BASIC_DEFENSE} = skills;
@@ -18,15 +19,25 @@
   let graveyard = [];
 
   $: if (selectedTarget !== undefined && selectedAction !== undefined) attack();
-  $: if (player.mana === 0) finishTurn();
   $: if (shouldPlay) initializeTurn();
+
+  /*
+
+    afterUpdate(() => {
+      if (player.mana === 0) {
+        console.log("Conditions vérifiées. On finit le tour.");
+        finishTurn();
+      }
+    })
+  */
+
 
   function initializeTurn() {
     player = {
       ...player,
       mana: 3,
       defense: 0,
-    }
+    };
 
     // On prend le deck
     // On retire les 5 dernières cartes du paquet
@@ -78,6 +89,9 @@
     player = {
       ...player,
       isSelecting: true,
+    };
+    if (cardsList[selectedAction].action === BASIC_DEFENSE) {
+      defend();
     }
   }
 
@@ -85,19 +99,10 @@
     graveyard = [...graveyard, ...cardsList];
     cardsList = [];
     next();
-  }
-
-  /**
-   * If the player is selecting,
-   * applies the effect of the selected card to the player.
-   */
-  function selectPlayer() {
-    if (selectedAction) {
-      const {action} = cardsList[selectedAction];
-      if (action === BASIC_DEFENSE) {
-        defend();
-      }
-    }
+    /*    tick().then(() => {
+          console.log("Le joueur next");
+          next();
+        });*/
   }
 
   /**
@@ -105,14 +110,13 @@
    */
   function defend() {
     const defense = cardsList[selectedAction].action === BASIC_DEFENSE ? 6 : 0;
-    player = {...player, defense: player.defense + defense}
+    player = {...player, defense: player.defense + defense};
     finishAction();
   }
 
 
   /**
    * Attacks the Ennemy
-   * @param targetIndex The index of the target Ennemy;
    * @param action The action linked to the attack
    */
   function attack(action = BASIC_ATTACK) {
@@ -120,15 +124,14 @@
     const {hp} = enemy;
 
     if (hp > 0) {
-      const hp = calculateFinalHp(action, player, enemy);
+      const updatedEnemy = applyDamages(action, player, enemy);
       let updatedEnemies = [...enemies];
       if (hp !== 0) {
-        updatedEnemies[selectedTarget] = {...enemy, hp};
+        updatedEnemies[selectedTarget] = {...updatedEnemy};
       } else {
         updatedEnemies = updatedEnemies.filter(currentEnemy => currentEnemy.name !== enemy.name)
       }
       enemies = [...updatedEnemies];
-
       finishAction();
     }
   }
@@ -137,17 +140,20 @@
    * This method is triggered when the users has played something
    */
   function finishAction() {
-    player = {...player, mana: player.mana - 1};
 
     // Remove last card played from hand and put it in graveyard
+    player = {...player, mana: player.mana - 1};
     graveyard = [...graveyard, cardsList[selectedAction]];
-    cardsList = [...cardsList.filter((card, index) => selectedAction !== index)]
-    selectedAction = undefined;
+    cardsList = [...cardsList.filter((card, index) => selectedAction !== index)];
+    tick().then(() => {
+      selectedAction = undefined;
+      selectedTarget = undefined;
+    })
   }
 </script>
 
 
-<div class="Player" on:click={selectPlayer}>
+<div class="Player">
   <h4>{player.name}</h4>
   <img src={player.image} alt="Jhope"/>
   <p>
@@ -173,6 +179,8 @@
     {#each cardsList as card, index}
       <button
         class="Player__action"
+        class:Player__action--isDisabled={player.mana === 0}
+        disabled={player.mana === 0}
         on:click={() => selectAction(index)}
       >
         {card.name}
@@ -206,6 +214,11 @@
     color: white;
     cursor: pointer;
     margin: 0.25rem 0.5rem;
+  }
+
+  .Player__action--isDisabled {
+    pointer-events: none;
+    background-color: #999999;
   }
 
   .Player__action:hover {
