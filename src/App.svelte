@@ -9,7 +9,7 @@
   let player = initialPlayer;
   let enemies = [];
   let currentBattle = undefined;
-  let currentStep = 2;
+  let currentStep = 1;
   let isRewardsScreenDisplayed = false;
 
 
@@ -42,7 +42,6 @@
 </script>
 
 <div>
-  <h2>Ready to fight ? Fight !</h2>
   {#if isRewardsScreenDisplayed}
     <Rewards {currentStep} {onRewardChoosen}/>
   {:else if !currentBattle }

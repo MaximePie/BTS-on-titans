@@ -1,11 +1,12 @@
-import {attacks, skills} from "./cards";
+import {attacks} from "./cards";
 
 /**
  * Calculates the damage output based on entities and actions
  */
 export function applyDamages(action, attacker, target) {
   const updatedTarget = target;
-  let damage = action === attacks.BASIC_ATTACK ? attacker.attack : 0;
+  let damage = action.damage;
+  damage += attacker.attack;
 
   if (updatedTarget.defense && damage > updatedTarget.defense) {
     damage -= updatedTarget.defense;
@@ -24,4 +25,17 @@ export function applyDamages(action, attacker, target) {
   }
 
   return updatedTarget;
+}
+
+
+function baseDamageFromAction(action) {
+
+  switch(action) {
+    case attacks.BASIC_ATTACK:
+      return 0;
+    case attacks.ICE_TEA_ATTACK:
+      return 4;
+    default:
+      return 0;
+  }
 }

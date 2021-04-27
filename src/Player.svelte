@@ -86,12 +86,14 @@
   function selectAction(cardIndex) {
     selectedAction = cardIndex;
     selectedTarget = undefined;
-    player = {
-      ...player,
-      isSelecting: true,
-    };
-    if (cardsList[selectedAction].action === BASIC_DEFENSE) {
+    if (cardsList[selectedAction].id === BASIC_DEFENSE.id) {
       defend();
+    }
+    else {
+      player = {
+        ...player,
+        isSelecting: true,
+      };
     }
   }
 
@@ -109,24 +111,23 @@
    * Adds defense until the next turn
    */
   function defend() {
-    const defense = cardsList[selectedAction].action === BASIC_DEFENSE ? 6 : 0;
+    const defense = cardsList[selectedAction].defense || 0;
     player = {...player, defense: player.defense + defense};
     finishAction();
   }
 
 
   /**
-   * Attacks the Ennemy
-   * @param action The action linked to the attack
+   * Attacks the Ennemy with the selected Action
    */
-  function attack(action = BASIC_ATTACK) {
+  function attack() {
     const enemy = enemies[selectedTarget];
     const {hp} = enemy;
 
     if (hp > 0) {
-      const updatedEnemy = applyDamages(action, player, enemy);
+      const updatedEnemy = applyDamages(cardsList[selectedAction], player, enemy);
       let updatedEnemies = [...enemies];
-      if (hp !== 0) {
+      if (updatedEnemy.hp > 0) {
         updatedEnemies[selectedTarget] = {...updatedEnemy};
       } else {
         updatedEnemies = updatedEnemies.filter(currentEnemy => currentEnemy.name !== enemy.name)

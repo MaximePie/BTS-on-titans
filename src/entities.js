@@ -7,7 +7,7 @@ export const enemies = [
     name: "titan basique",
     hp: 20,
     image: 'images/titan.jpg',
-    attack: 30,
+    attack: 6,
   },
   {
     name: "titan colossal",
