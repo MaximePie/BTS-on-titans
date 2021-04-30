@@ -2,13 +2,20 @@
   import Map from "./Map.svelte"
   import Battle from "./Battle.svelte"
   import Rewards from "./Rewards.svelte"
-  import {
-    player as initialPlayer,
-  } from "./entities.js";
+  import PlayerPick from "./PlayerPick.svelte"
 
-  let player = initialPlayer;
-  let enemies = [];
+  import {players} from "./entities";
+  import {battles} from "./battles";
+
+  let player = undefined;
   let currentBattle = undefined;
+  let enemies = [];
+
+  // Testing config
+  // let currentBattle = battles[0];
+  // let player = players.sort(() => Math.random() - 0.5)[0];
+  // let enemies = battles[0].enemies;
+
   let currentStep = 1;
   let isRewardsScreenDisplayed = false;
 
@@ -24,7 +31,11 @@
   /**
    * Triggered when the user picks a rewards after a battle
    */
-  function onRewardChoosen() {
+  function onRewardChoosen(card) {
+    player = {
+      ...player,
+      deck: [...player.deck, card],
+    }
     currentStep++;
     isRewardsScreenDisplayed = false;
   }
@@ -42,8 +53,10 @@
 </script>
 
 <div>
-  {#if isRewardsScreenDisplayed}
-    <Rewards {currentStep} {onRewardChoosen}/>
+  {#if !player}
+    <PlayerPick bind:player={player}/>
+  {:else if isRewardsScreenDisplayed}
+    <Rewards {currentStep} {onRewardChoosen} bind:player={player}/>
   {:else if !currentBattle }
     <Map {currentStep} {onBattlePick}/>
   {:else}

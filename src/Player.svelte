@@ -4,7 +4,7 @@
   import {tick} from "svelte";
 
   const {BASIC_ATTACK} = attacks;
-  const {BASIC_DEFENSE} = skills;
+  const {BASIC_DEFENSE, DID_YOU_SEE_MY_BAG, POGOSHIPDA} = skills;
 
   export let player = {};
   export let enemies = {};
@@ -86,10 +86,13 @@
   function selectAction(cardIndex) {
     selectedAction = cardIndex;
     selectedTarget = undefined;
-    if (cardsList[selectedAction].id === BASIC_DEFENSE.id) {
+    if (
+      cardsList[selectedAction].id === BASIC_DEFENSE.id ||
+      cardsList[selectedAction].id === POGOSHIPDA.id ||
+      cardsList[selectedAction].id === DID_YOU_SEE_MY_BAG.id
+    ) {
       defend();
-    }
-    else {
+    } else {
       player = {
         ...player,
         isSelecting: true,
@@ -156,25 +159,25 @@
 
 <div class="Player">
   <h4>{player.name}</h4>
-  <img src={player.image} alt="Jhope"/>
+  <img src={player.image} alt={player.name}/>
   <p>
-      <span>
-        ❤ {player.hp}
-      </span>
+    <span>
+      ❤ {player.hp}
+    </span>
     <span>
         🛡️ {player.defense}
-      </span>
+    </span>
     <span>
         💧 {player.mana}
-      </span>
+    </span>
     <span>
         🗃️
       {deck.length}
-      </span>
+    </span>
     <span>
         ☠️
       {graveyard.length}
-      </span>
+    </span>
   </p>
   <div class="Player__actions">
     {#each cardsList as card, index}
@@ -197,8 +200,13 @@
     text-align: center;
   }
 
+  img {
+    width: 100%;
+  }
+
   .Player {
-    border: solid 1px gray;
+    border: solid 1px lightgray;
+    border-radius: 4px;
     padding: 1rem;
     margin: 1rem;
     display: flex;
@@ -227,5 +235,12 @@
     transition: 250ms ease background-color;
     color: white;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 768px) {
+    .Player {
+      margin: 0;
+      padding: 0;
+    }
   }
 </style>

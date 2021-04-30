@@ -55,6 +55,13 @@
     display: grid;
     grid-template-columns: 400px 400px;
   }
+
+  @media screen and (max-width: 768px) {
+    .Battlefield {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 </style>
 
 <div>

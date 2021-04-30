@@ -44,7 +44,14 @@
     <h4>{enemy.name}</h4>
     <img class="Ennemy__image" src={enemy.image} alt="Titan"/>
   </div>
-  <p>PV : {enemy.hp}</p>
+  <p>
+    <span>
+      ❤ {enemy.hp}
+    </span>
+    <span>
+      🗡️ {enemy.attack}
+    </span>
+  </p>
   {#if enemy.hp === 0}
     <p class="Ennemy__death-text">L'ennemi a été vaincu !</p>
   {/if}
@@ -58,7 +65,8 @@
   }
 
   .Ennemy {
-    border: solid 1px gray;
+    border: solid 1px lightgray;
+    border-radius: 4px;
     padding: 1rem;
     margin: 1rem;
     display: flex;
@@ -81,5 +89,12 @@
 
   .Ennemy__image {
     width: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    .Ennemy {
+      margin: 1rem 0;
+      padding: 0;
+    }
   }
 </style>

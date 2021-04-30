@@ -41,4 +41,30 @@ export const battles = [
       enemiesList[0],
     ],
   },
+  {
+    step: 3,
+    reward: "HAHA",
+    enemies: [
+      enemiesList[1],
+      enemiesList[0],
+      enemiesList[0],
+      enemiesList[0],
+    ],
+  },
+  {
+    step: 3,
+    reward: "HAHA",
+    enemies: [
+      enemiesList[0],
+      enemiesList[0],
+      enemiesList[0],
+    ],
+  },
+  {
+    step: 2,
+    reward: "HAHA",
+    enemies: [
+      enemiesList[0],
+    ],
+  },
 ];

@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4b8af0ee-a96b-4369-bfc2-1d16a74ee395" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cards.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/cards.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/damageCalculator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/damageCalculator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Rewards.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rewards.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/battles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/battles.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +66,9 @@
       <workItem from="1619160337482" duration="18335000" />
       <workItem from="1619242802841" duration="1010000" />
       <workItem from="1619254343651" duration="7069000" />
-      <workItem from="1619495617041" duration="669000" />
+      <workItem from="1619495617041" duration="4221000" />
+      <workItem from="1619538652845" duration="607000" />
+      <workItem from="1619802456975" duration="1902000" />
     </task>
     <servers />
   </component>
@@ -105,14 +104,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="443" y="0" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1618992612694" />
-    <state width="746" height="596" key="SwitcherDM" timestamp="1619265995655">
+    <state width="746" height="596" key="SwitcherDM" timestamp="1619804195838">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="746" height="596" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1619265995655" />
-    <state x="808" y="25" width="1093" height="996" key="find.popup" timestamp="1619257429965">
+    <state width="746" height="596" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1619804195838" />
+    <state x="808" y="25" width="1093" height="996" key="find.popup" timestamp="1619803643804">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="808" y="25" width="1093" height="996" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1619257429965" />
+    <state x="808" y="25" width="1093" height="996" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1619803643804" />
     <state x="812" y="120" width="1050" height="795" key="recent.locations.popup" timestamp="1619258580420">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -121,9 +120,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="842" y="236" width="1009" height="1469" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1619258395635" />
-    <state x="880" y="0" width="1009" height="1036" key="search.everywhere.popup" timestamp="1619257571429">
+    <state x="880" y="0" width="1009" height="1036" key="search.everywhere.popup" timestamp="1619803742207">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="880" y="0" width="1009" height="1036" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1619257571429" />
+    <state x="880" y="0" width="1009" height="1036" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1619803742207" />
   </component>
 </project>
